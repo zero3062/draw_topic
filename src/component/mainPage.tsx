@@ -1,7 +1,7 @@
 import React from 'react';
 
 function App() {
-  return <div>Random drawing topic</div>;
+  return <div>Main</div>;
 }
 
 export default App;
