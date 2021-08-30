@@ -1,67 +1,84 @@
 import React, { useState } from 'react';
 import '../style/mainPage.scss';
 
+interface listType {
+  id: number;
+  text: string;
+  checked: boolean;
+}
+
+interface topicType {
+  id: number;
+  header: string;
+  list: Array<listType>;
+}
+
 function mainPage() {
-  const [topic, setTopic] = useState([
+  const [topic, setTopic] = useState<Array<topicType>>([
     {
       id: 1,
-      selectType: 'genre',
-      header: '장르',
-      list: ['액션', '호러', '고어', '판타지'],
-    },
-    {
-      id: 2,
-      selectType: 'gender',
-      header: '성별',
-      list: ['상관 없음', '남자', '여자', '없음'],
-    },
-    {
-      id: 3,
-      selectType: 'tribe',
-      header: '종족',
-      list: ['인간', '듀라한', '악마'],
-    },
-    {
-      id: 4,
-      selectType: 'option',
-      header: '설정',
-      list: ['수녀'],
+      header: 'list1',
+      list: [{ id: 1, text: 'list1_1', checked: false }],
     },
   ]);
-  const [select, setSelect] = useState([
-    {
-      id: 1,
-      genre: [],
-    },
-    {
-      id: 2,
-      gender: [],
-    },
-    {
-      id: 3,
-      tribe: [],
-    },
-    {
-      id: 4,
-      option: [],
-    },
-  ]);
-  const handleTopicSelect = (topciIndex: number, index: number) => {
-    console.log(index);
+
+  // 선택하면 topic item의 checked 변경
+  const handleClickList = (topicIndex: number, listIndex: number): void => {
+    const selectList = topic[topicIndex].list;
+    const selectedList = [...selectList];
+
+    selectedList.splice(listIndex, 1, {
+      ...selectedList[listIndex],
+      checked: !selectedList[listIndex].checked,
+    });
+
+    setTopic(
+      topic.map((item, index) =>
+        index === topicIndex
+          ? { ...item, list: [...new Set(selectedList)] }
+          : item,
+      ),
+    );
   };
+
   return (
-    <div>
-      <h1>Main</h1>
-      <h2>Topic</h2>
-      <div className="topic">
-        {topic.map((topicList, topicIndex) => (
-          <li key={topicList.header} className="topic_li">
-            <h3>{topicList.header}</h3>
-            {topicList.list.map((list, index) => (
-              <li key={String(index)}>{list}</li>
-            ))}
-          </li>
-        ))}
+    <div className="article">
+      <div className="main_title">Main</div>
+      <div className="topic_article">
+        <div className="topic_main">Topic</div>
+        <div className="topic ">
+          {topic.map((topicList, topicIndex) => (
+            <div key={`topic${String(topicIndex)}`} className="topic_list">
+              <div className="topic_header">{topicList.header}</div>
+              <li key={topicList.header} className="topic_li">
+                {topicList.list.map((list, listIndex) => (
+                  <li
+                    key={list.text}
+                    className="topic_item"
+                    onKeyPress={() => handleClickList(topicIndex, listIndex)}
+                    onClick={() => handleClickList(topicIndex, listIndex)}
+                  >
+                    <input
+                      type="checkbox"
+                      className="blind"
+                      id={`topic${topicIndex}_select${listIndex}`}
+                      onClick={() => handleClickList(topicIndex, listIndex)}
+                      checked={list.checked}
+                    />
+                    <label
+                      htmlFor={`topic${topicIndex}_select${listIndex}`}
+                      className={
+                        list.checked ? 'topic_label on' : 'topic_label'
+                      }
+                    >
+                      {list.text}
+                    </label>
+                  </li>
+                ))}
+              </li>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
