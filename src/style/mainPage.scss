@@ -12,26 +12,28 @@ li {
   list-style: none;
 }
 
+input {
+  outline: none;
+}
+
+.blind {
+  display: none;
+}
+
 .article {
   padding: 30px 70px;
 
-  .main_title {
+  .topic_main {
     font-size: 50px;
     font-weight: bold;
     color: rgb(60, 64, 105);
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 
   .topic_article {
     background: rgba(60, 64, 105, 0.527);
     border-radius: 20px;
     padding: 30px 50px;
-
-    .topic_main {
-      font-size: 40px;
-      font-weight: bold;
-      color: rgb(60, 64, 105);
-    }
   }
 
   .topic {
@@ -41,20 +43,57 @@ li {
     overflow-x: scroll;
 
     .topic_list {
-      margin: 20px 70px;
+      margin: 20px 40px;
       background: rgb(60, 64, 105);
       border-radius: 20px;
       padding: 20px;
       color: white;
 
+      &:first-child {
+        margin: 20px 40px 20px 10px;
+      }
+
+      &:last-child {
+        margin: 20px 10px 20px 40px;
+      }
+
       .topic_header {
         background: rgb(255, 255, 255);
         color: rgb(60, 64, 105);
         font-size: 25px;
-        padding: 10px 20px;
         border-radius: 10px;
+        padding: 4px 10px;
         font-weight: bold;
         margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 220px;
+
+        .topic_header_edit {
+          color: rgb(60, 64, 105);
+          margin-top: 3px;
+        }
+
+        .topic_header_input {
+          font-size: 25px;
+          padding: 5px 20px;
+          border: 3px solid rgb(60, 64, 105);
+          border-radius: 10px;
+          width: 120px;
+          color: rgb(60, 64, 105);
+        }
+
+        .topic_header_check {
+          color: rgb(60, 64, 105);
+          margin-top: 10px;
+          margin-right: 10px;
+        }
+      }
+
+      .pad_true {
+        padding: 10px 20px;
+        width: 200px;
       }
 
       .topic_li {
@@ -63,23 +102,14 @@ li {
 
         .topic_item {
           width: 200px;
-          display: flex;
-          // justify-content: space-between;
+          cursor: pointer;
+        }
 
-          .topic_label {
-          }
-
-          .on {
-            color: red;
-            text-decoration: line-through;
-            font-weight: bold;
-          }
+        .on {
+          text-decoration: line-through;
+          font-weight: bold;
         }
       }
     }
   }
-}
-
-.blind {
-  display: none;
 }

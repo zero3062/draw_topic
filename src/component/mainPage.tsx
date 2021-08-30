@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import * as toastr from 'toastr';
+import { AiOutlineEdit, AiOutlineCheck } from 'react-icons/ai';
 import '../style/mainPage.scss';
 
 interface listType {
@@ -20,59 +22,71 @@ function mainPage() {
       header: 'list1',
       list: [{ id: 1, text: 'list1_1', checked: false }],
     },
+    {
+      id: 1,
+      header: 'list1',
+      list: [{ id: 1, text: 'list1_1', checked: false }],
+    },
   ]);
+  const [header, setHeader] = useState<[string, number]>(['', -1]); // 첫번째 인자는 바뀐 값/두번째 인자는 topic Index
 
-  // 선택하면 topic item의 checked 변경
-  const handleClickList = (topicIndex: number, listIndex: number): void => {
-    const selectList = topic[topicIndex].list;
-    const selectedList = [...selectList];
+  const handleHeaderEdit = (index: number) => {
+    setHeader(['', index]);
+  };
 
-    selectedList.splice(listIndex, 1, {
-      ...selectedList[listIndex],
-      checked: !selectedList[listIndex].checked,
-    });
+  const handleHeaderChange = () => {
+    const [text, headerIndex] = header;
 
-    setTopic(
-      topic.map((item, index) =>
-        index === topicIndex
-          ? { ...item, list: [...new Set(selectedList)] }
-          : item,
-      ),
-    );
+    if (text !== '') {
+      setTopic(
+        topic.map((item, index) =>
+          index === headerIndex ? { ...item, header: text } : item,
+        ),
+      );
+
+      setHeader(['', -1]);
+    } else {
+      toastr.error('header is defined');
+    }
   };
 
   return (
     <div className="article">
-      <div className="main_title">Main</div>
+      <div className="topic_main">Topic</div>
       <div className="topic_article">
-        <div className="topic_main">Topic</div>
         <div className="topic ">
           {topic.map((topicList, topicIndex) => (
             <div key={`topic${String(topicIndex)}`} className="topic_list">
-              <div className="topic_header">{topicList.header}</div>
+              {topicIndex !== header[1] ? (
+                <div className="topic_header pad_true">
+                  <div className="topic_header_text">{topicList.header}</div>
+                  <AiOutlineEdit
+                    className="topic_header_edit"
+                    onClick={() => handleHeaderEdit(topicIndex)}
+                  />
+                </div>
+              ) : (
+                <div className="topic_header">
+                  <input
+                    type="text"
+                    className="topic_header_input"
+                    placeholder={topicList.header}
+                    onChange={(e) => setHeader([e.target.value, topicIndex])}
+                    value={header[0]}
+                  />
+                  <AiOutlineCheck
+                    className="topic_header_check"
+                    onClick={() => handleHeaderChange()}
+                  />
+                </div>
+              )}
               <li key={topicList.header} className="topic_li">
-                {topicList.list.map((list, listIndex) => (
+                {topicList.list.map((list) => (
                   <li
                     key={list.text}
-                    className="topic_item"
-                    onKeyPress={() => handleClickList(topicIndex, listIndex)}
-                    onClick={() => handleClickList(topicIndex, listIndex)}
+                    className={list.checked ? 'topic_item on' : 'topic_item'}
                   >
-                    <input
-                      type="checkbox"
-                      className="blind"
-                      id={`topic${topicIndex}_select${listIndex}`}
-                      onClick={() => handleClickList(topicIndex, listIndex)}
-                      checked={list.checked}
-                    />
-                    <label
-                      htmlFor={`topic${topicIndex}_select${listIndex}`}
-                      className={
-                        list.checked ? 'topic_label on' : 'topic_label'
-                      }
-                    >
-                      {list.text}
-                    </label>
+                    {list.text}
                   </li>
                 ))}
               </li>
