@@ -68,32 +68,28 @@ input {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 220px;
 
         .topic_header_edit {
           color: rgb(60, 64, 105);
-          margin-top: 3px;
+          margin: 3px 0px 0px 10px;
         }
 
         .topic_header_input {
           font-size: 25px;
-          padding: 5px 20px;
+          padding: 5px 10px;
           border: 3px solid rgb(60, 64, 105);
           border-radius: 10px;
-          width: 120px;
           color: rgb(60, 64, 105);
         }
 
         .topic_header_check {
           color: rgb(60, 64, 105);
-          margin-top: 10px;
-          margin-right: 10px;
+          margin: 10px 0px 0px 10px;
         }
       }
 
       .pad_true {
         padding: 10px 20px;
-        width: 200px;
       }
 
       .topic_li {
@@ -101,8 +97,8 @@ input {
         overflow-y: scroll;
 
         .topic_item {
-          width: 200px;
           cursor: pointer;
+          width: 200px;
         }
 
         .on {

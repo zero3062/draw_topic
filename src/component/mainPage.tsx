@@ -23,8 +23,8 @@ function mainPage() {
       list: [{ id: 1, text: 'list1_1', checked: false }],
     },
     {
-      id: 1,
-      header: 'list1',
+      id: 2,
+      header: 'list2',
       list: [{ id: 1, text: 'list1_1', checked: false }],
     },
   ]);
@@ -37,17 +37,19 @@ function mainPage() {
   const handleHeaderChange = () => {
     const [text, headerIndex] = header;
 
-    if (text !== '') {
+    if (text !== '' && topic.findIndex((obj) => obj.header === text) === -1) {
       setTopic(
         topic.map((item, index) =>
           index === headerIndex ? { ...item, header: text } : item,
         ),
       );
-
-      setHeader(['', -1]);
-    } else {
-      toastr.error('header is defined');
+    } else if (topic.findIndex((obj) => obj.header === text) !== -1) {
+      toastr.error('같은 이름의 주제가 있습니다.');
+    } else if (text === '') {
+      toastr.error('주제를 입력해주세요.');
     }
+
+    setHeader(['', -1]);
   };
 
   return (
