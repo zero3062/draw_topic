@@ -43,6 +43,7 @@ input {
     overflow-x: scroll;
 
     .topic_list {
+      position: relative;
       margin: 20px 40px;
       background: rgb(60, 64, 105);
       border-radius: 20px;
@@ -57,6 +58,21 @@ input {
         margin: 20px 10px 20px 40px;
       }
 
+      .topic_header_delete_div {
+        background: white;
+        border-radius: 50px;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: -7px;
+        right: -7px;
+
+        .topic_header_delete {
+          font-size: 30px;
+          color: rgb(60, 64, 105);
+        }
+      }
+
       .topic_header {
         background: rgb(255, 255, 255);
         color: rgb(60, 64, 105);
@@ -68,6 +84,10 @@ input {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+
+        .topic_header_text {
+          white-space: nowrap;
+        }
 
         .topic_header_edit {
           color: rgb(60, 64, 105);
@@ -93,17 +113,50 @@ input {
       }
 
       .topic_li {
-        height: 300px;
+        height: 450px;
         overflow-y: scroll;
 
         .topic_item {
-          cursor: pointer;
-          width: 200px;
+          background: rgb(110, 115, 163);
+          padding: 17px 20px;
+          font-size: 20px;
+          margin-bottom: 15px;
+          border-radius: 7px;
+          position: relative;
+
+          .topic_item_delete_div {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+
+            .topic_item_delete {
+              font-size: 17px;
+              color: white;
+            }
+          }
+
+          .topic_item_main {
+            display: flex;
+            justify-content: space-between;
+
+            .topic_item_text {
+              max-width: 230px;
+              word-wrap: break-word;
+              margin-right: 20px;
+            }
+
+            .topic_item_edit {
+              margin-top: 4px;
+            }
+          }
         }
 
         .on {
-          text-decoration: line-through;
-          font-weight: bold;
+          background: rgb(240, 120, 120);
+        }
+
+        .add_item {
+          background: rgba(255, 255, 255, 0.445);
         }
       }
     }
@@ -117,7 +170,7 @@ input {
         color: white;
 
         .topic_header_text {
-          min-width: 180px;
+          white-space: nowrap;
         }
 
         .topic_header_input {
