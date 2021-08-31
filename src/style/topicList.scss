@@ -1,0 +1,217 @@
+body {
+  -ms-overflow-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+li {
+  list-style: none;
+}
+
+input {
+  outline: none;
+}
+
+.blind {
+  display: none;
+}
+
+.article {
+  padding: 30px 70px;
+
+  .topic_main {
+    font-size: 50px;
+    font-weight: bold;
+    color: rgb(60, 64, 105);
+    margin-bottom: 30px;
+  }
+
+  .topic_article {
+    background: rgba(60, 64, 105, 0.527);
+    border-radius: 20px;
+    padding: 30px 50px;
+  }
+
+  .topic {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow-x: scroll;
+
+    .topic_list {
+      position: relative;
+      margin: 20px 40px;
+      background: rgb(60, 64, 105);
+      border-radius: 20px;
+      padding: 20px;
+      color: white;
+
+      &:first-child {
+        margin: 20px 40px 20px 10px;
+      }
+
+      &:last-child {
+        margin: 20px 10px 20px 40px;
+      }
+
+      .topic_header_delete_div {
+        background: white;
+        border-radius: 50px;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: -7px;
+        right: -7px;
+
+        .topic_header_delete {
+          font-size: 30px;
+          color: rgb(60, 64, 105);
+        }
+      }
+
+      .topic_header {
+        background: rgb(255, 255, 255);
+        color: rgb(60, 64, 105);
+        font-size: 25px;
+        border-radius: 10px;
+        padding: 4px 10px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .topic_header_text {
+          white-space: nowrap;
+        }
+
+        .topic_header_edit {
+          color: rgb(60, 64, 105);
+          margin: 3px 0px 0px 10px;
+        }
+
+        .topic_header_input {
+          font-size: 25px;
+          padding: 5px 10px;
+          border: 3px solid rgb(60, 64, 105);
+          border-radius: 10px;
+          color: rgb(60, 64, 105);
+        }
+
+        .topic_header_check {
+          color: rgb(60, 64, 105);
+          margin: 10px 0px 0px 10px;
+        }
+      }
+
+      .pad_true {
+        padding: 10px 20px;
+      }
+
+      .topic_li {
+        height: 450px;
+        overflow-y: scroll;
+
+        .topic_item {
+          background: rgb(110, 115, 163);
+          padding: 17px 20px;
+          font-size: 20px;
+          margin-bottom: 15px;
+          border-radius: 7px;
+          position: relative;
+
+          .topic_item_delete_div {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+
+            .topic_item_delete {
+              font-size: 17px;
+              color: white;
+            }
+          }
+
+          .topic_item_main {
+            display: flex;
+            justify-content: space-between;
+
+            .topic_item_text {
+              max-width: 94%;
+              word-wrap: break-word;
+              margin-right: 20px;
+            }
+
+            .topic_item_input {
+              font-size: 20px;
+              border: none;
+              color: white;
+              background: transparent;
+              min-width: 90%;
+
+              &::placeholder {
+                color: rgb(185, 185, 185);
+              }
+            }
+
+            .topic_item_edit {
+              position: absolute;
+              top: 18px;
+              right: 15px;
+            }
+          }
+        }
+
+        .on {
+          background: rgb(240, 120, 120);
+        }
+
+        .add_item {
+          background: rgba(255, 255, 255, 0.445);
+
+          .topic_item_main > .topic_item_text {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+
+    .add_list {
+      background-color: rgb(60, 64, 105);
+      height: 50px;
+
+      .topic_header {
+        background-color: rgb(60, 64, 105);
+        color: white;
+
+        .topic_header_text {
+          white-space: nowrap;
+        }
+
+        .topic_header_input {
+          background-color: rgb(60, 64, 105);
+          color: white;
+          font-size: 25px;
+          padding: 5px 10px;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.445);
+          }
+        }
+
+        .topic_header_edit {
+          color: white;
+          margin: 3px 0px 0px 10px;
+        }
+
+        .topic_header_check {
+          color: white;
+          margin: 10px 0px 0px 10px;
+        }
+      }
+    }
+  }
+}

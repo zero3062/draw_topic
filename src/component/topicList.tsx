@@ -6,7 +6,7 @@ import {
   AiOutlineClose,
   AiOutlinePlus,
 } from 'react-icons/ai';
-import '../style/mainPage.scss';
+import '../style/topicList.scss';
 
 interface listType {
   id: number;
