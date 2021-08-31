@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as toastr from 'toastr';
-import { AiOutlineEdit, AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import '../style/mainPage.scss';
 
 interface listType {
@@ -18,12 +18,23 @@ interface topicType {
 function mainPage() {
   const [topic, setTopic] = useState<Array<topicType>>([]);
   const [header, setHeader] = useState<[string, number]>(['', -1]); // 첫번째 인자는 바뀐 값/두번째 인자는 topic Index
+  const [listFocus, setListFocus] = useState(-1);
 
-  const handleHeaderEdit = (index: number) => {
-    setHeader(['', index]);
+  const handleAddHeader = (): void => {
+    const text = header[0];
+
+    if (text !== '' && topic.findIndex((obj) => obj.header === text) === -1) {
+      setTopic(topic.concat({ id: topic.length + 1, header: text, list: [] }));
+    } else if (topic.findIndex((obj) => obj.header === text) !== -1) {
+      toastr.error('같은 이름의 주제가 있습니다.');
+    } else if (text === '') {
+      toastr.error('주제를 입력해주세요.');
+    }
+
+    setHeader(['', -1]);
   };
 
-  const handleHeaderChange = (): void => {
+  const handleEditHeader = (): void => {
     const [text, headerIndex] = header;
 
     if (text !== '' && topic.findIndex((obj) => obj.header === text) === -1) {
@@ -41,37 +52,47 @@ function mainPage() {
     setHeader(['', -1]);
   };
 
-  const handleAddHeader = (): void => {
-    const [text, headerIndex] = header;
+  const handleDeleteHeader = (topicIndex: number): void => {
+    const topicSample = topic
+      .filter((item, index) => index !== topicIndex)
+      .map((item, index) =>
+        item.id - 1 !== index ? { ...item, id: index + 1 } : item,
+      );
 
-    if (text !== '' && topic.findIndex((obj) => obj.header === text) === -1) {
-      setTopic(topic.concat({ id: topic.length + 1, header: text, list: [] }));
-    } else if (topic.findIndex((obj) => obj.header === text) !== -1) {
-      toastr.error('같은 이름의 주제가 있습니다.');
-    } else if (text === '') {
-      toastr.error('주제를 입력해주세요.');
-    }
-
-    setHeader(['', -1]);
-  };
-
-  const handleInputEnter = (e: any, fn: () => void) => {
-    if (e.key === 'Enter') fn();
+    setTopic(topicSample);
   };
 
   return (
     <div className="article">
       <div className="topic_main">Topic</div>
       <div className="topic_article">
-        <div className="topic ">
+        <div
+          className="topic"
+          onFocus={() => setListFocus(-1)}
+          onMouseOver={() => setListFocus(-1)}
+        >
           {topic.map((topicList, topicIndex) => (
-            <div key={`topic${String(topicIndex)}`} className="topic_list">
+            <div
+              key={`topic${String(topicIndex)}`}
+              className="topic_list"
+              onFocus={() => setListFocus(topicIndex)}
+              onMouseOver={(e) => {
+                e.stopPropagation();
+                setListFocus(topicIndex);
+              }}
+            >
+              {listFocus === topicIndex && (
+                <AiOutlineClose
+                  className="topic_header_delete"
+                  onClick={() => handleDeleteHeader(topicIndex)}
+                />
+              )}
               {topicIndex !== header[1] ? (
                 <div className="topic_header pad_true">
                   <div className="topic_header_text">{topicList.header}</div>
                   <AiOutlineEdit
                     className="topic_header_edit"
-                    onClick={() => handleHeaderEdit(topicIndex)}
+                    onClick={() => setHeader(['', topicIndex])}
                   />
                 </div>
               ) : (
@@ -81,13 +102,15 @@ function mainPage() {
                     className="topic_header_input"
                     placeholder={topicList.header}
                     onChange={(e) => setHeader([e.target.value, topicIndex])}
-                    onKeyPress={(e) => handleInputEnter(e, handleHeaderChange)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') handleEditHeader();
+                    }}
                     ref={(e) => e?.focus?.()}
                     value={header[0]}
                   />
                   <AiOutlineCheck
                     className="topic_header_check"
-                    onClick={() => handleHeaderChange()}
+                    onClick={() => handleEditHeader()}
                   />
                 </div>
               )}
@@ -110,7 +133,7 @@ function mainPage() {
                 <div className="topic_header_text">Add The Topic</div>
                 <AiOutlineEdit
                   className="topic_header_edit"
-                  onClick={() => handleHeaderEdit(-2)}
+                  onClick={() => setHeader(['', -2])}
                 />
               </div>
             ) : (
@@ -120,7 +143,9 @@ function mainPage() {
                   className="topic_header_input"
                   placeholder="Add The Topic"
                   onChange={(e) => setHeader([e.target.value, -2])}
-                  onKeyPress={(e) => handleInputEnter(e, handleAddHeader)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') handleAddHeader();
+                  }}
                   value={header[0]}
                   ref={(e) => e?.focus?.()}
                 />
