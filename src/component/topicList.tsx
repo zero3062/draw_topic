@@ -20,14 +20,8 @@ interface topicType {
   list: Array<listType>;
 }
 
-function mainPage() {
-  const [topic, setTopic] = useState<Array<topicType>>([
-    {
-      id: 1,
-      header: 'test_1',
-      list: [{ id: 1, text: 'test_1_1', checked: false }],
-    },
-  ]);
+export default function topicList() {
+  const [topic, setTopic] = useState<Array<topicType>>([]);
   const [header, setHeader] = useState<[string, number]>(['', -1]); // 첫번째 인자는 바뀐 값, 두번째 인자는 topic Index
   const [listFocus, setListFocus] = useState(-1); // 몇번째 topic에 포커싱 중인지 나타내는 숫자형 변수
 
@@ -38,6 +32,7 @@ function mainPage() {
     -1,
   ]);
 
+  // topic 생성
   const handleAddHeader = (): void => {
     const text = header[0];
 
@@ -52,6 +47,7 @@ function mainPage() {
     setHeader(['', -1]);
   };
 
+  // topic 이름 변경
   const handleEditHeader = (): void => {
     const [text, headerIndex] = header;
 
@@ -70,6 +66,7 @@ function mainPage() {
     setHeader(['', -1]);
   };
 
+  // topic 삭제
   const handleDeleteHeader = (topicIndex: number): void => {
     const topicSample = topic
       .filter((item, index) => index !== topicIndex)
@@ -80,6 +77,7 @@ function mainPage() {
     setTopic(topicSample);
   };
 
+  // topic item 생성
   const handleAddItem = (): void => {
     const [text, topicIndex] = [subItem[0], subItem[1]];
 
@@ -112,6 +110,7 @@ function mainPage() {
     setSubItem(['', -1, -1]);
   };
 
+  // topic item 내용 변경
   const handleEditItem = (): void => {
     const [text, topicIndex, listIndex] = subItem;
 
@@ -142,6 +141,7 @@ function mainPage() {
     setSubItem(['', -1, -1]);
   };
 
+  // topic item 삭제
   const handleDeleteItem = (topicIndex: number, listIndex: number): void => {
     const topicSample = topic.map((topicItem, index) =>
       index === topicIndex
@@ -165,7 +165,7 @@ function mainPage() {
 
   return (
     <div className="article">
-      <div className="topic_main">Topic</div>
+      <div className="topic_main">Topic List</div>
       <div className="topic_article">
         <div
           className="topic"
@@ -342,5 +342,3 @@ function mainPage() {
     </div>
   );
 }
-
-export default mainPage;
