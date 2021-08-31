@@ -91,6 +91,32 @@ function mainPage() {
     setTopic(topicSample);
   };
 
+  const handleAddItem = (): void => {
+    const [text, topicIndex] = [subItem[0], subItem[1]];
+
+    if (
+      text !== '' &&
+      topic[topicIndex].list.findIndex((obj) => obj.text === text) === -1
+    ) {
+      const sampleTopic = topic.map((tItem, tIndex) =>
+        tIndex === topicIndex
+          ? {
+              ...tItem,
+              list: tItem.list.concat({
+                id: topic[topicIndex].list.length + 1,
+                text,
+                checked: false,
+              }),
+            }
+          : tItem,
+      );
+
+      setTopic(sampleTopic);
+    }
+
+    setSubItem(['', -1, -1]);
+  };
+
   const handleDeleteItem = (topicIndex: number, listIndex: number): void => {
     const topicSample = topic.map((topicItem, index) =>
       index === topicIndex
@@ -189,51 +215,37 @@ function mainPage() {
                   className="topic_item add_item"
                   role="button"
                   tabIndex={-1}
-                  // onClick={() => setHeader(['', -2])}
-                  // onKeyDown={() => setHeader(['', -2])}
                 >
-                  <div className="topic_item_main">
-                    <div className="topic_item_text">Add The Topic</div>
-                    <AiOutlinePlus
-                      className="topic_header_edit"
-                      // onClick={() => setHeader(['', -2])}
-                    />
-                  </div>
+                  {subItem[2] !== -2 ? (
+                    <div className="topic_item_main">
+                      <div className="topic_item_text">Add The Topic</div>
+                      <AiOutlinePlus
+                        className="topic_item_edit"
+                        onClick={() => setSubItem(['', topicIndex, -2])}
+                      />
+                    </div>
+                  ) : (
+                    <div className="topic_item_main">
+                      <input
+                        type="text"
+                        className="topic_item_input"
+                        placeholder="Add The Topic"
+                        onChange={(e) =>
+                          setSubItem([e.target.value, topicIndex, -2])
+                        }
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') handleAddItem();
+                        }}
+                        value={subItem[0]}
+                        ref={(e) => e?.focus?.()}
+                      />
+                      <AiOutlineCheck
+                        className="topic_item_edit"
+                        onClick={() => handleAddItem()}
+                      />
+                    </div>
+                  )}
                 </div>
-
-                {/* {true ? (
-                  <div
-                    className="topic_header pad_true"
-                    role="button"
-                    tabIndex={-1}
-                    onClick={() => setHeader(['', -2])}
-                    onKeyDown={() => setHeader(['', -2])}
-                  >
-                    <div className="topic_header_text">Add The Topic</div>
-                    <AiOutlinePlus
-                      className="topic_header_edit"
-                      onClick={() => setHeader(['', -2])}
-                    />
-                  </div>
-                ) : (
-                  <div className="topic_header">
-                    <input
-                      type="text"
-                      className="topic_header_input"
-                      placeholder="Add The Topic"
-                      onChange={(e) => setHeader([e.target.value, -2])}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') handleAddHeader();
-                      }}
-                      value={header[0]}
-                      ref={(e) => e?.focus?.()}
-                    />
-                    <AiOutlineCheck
-                      className="topic_header_check"
-                      onClick={() => handleAddHeader()}
-                    />
-                  </div>
-                )} */}
               </li>
             </div>
           ))}

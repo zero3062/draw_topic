@@ -145,6 +145,17 @@ input {
               margin-right: 20px;
             }
 
+            .topic_item_input {
+              font-size: 20px;
+              border: none;
+              color: white;
+              background: transparent;
+
+              &::placeholder {
+                color: rgb(185, 185, 185);
+              }
+            }
+
             .topic_item_edit {
               margin-top: 4px;
             }
