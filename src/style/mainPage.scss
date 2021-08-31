@@ -107,5 +107,40 @@ input {
         }
       }
     }
+
+    .add_list {
+      background-color: rgb(60, 64, 105);
+      height: 50px;
+
+      .topic_header {
+        background-color: rgb(60, 64, 105);
+        color: white;
+
+        .topic_header_text {
+          min-width: 180px;
+        }
+
+        .topic_header_input {
+          background-color: rgb(60, 64, 105);
+          color: white;
+          font-size: 25px;
+          padding: 5px 10px;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.445);
+          }
+        }
+
+        .topic_header_edit {
+          color: white;
+          margin: 3px 0px 0px 10px;
+        }
+
+        .topic_header_check {
+          color: white;
+          margin: 10px 0px 0px 10px;
+        }
+      }
+    }
   }
 }
