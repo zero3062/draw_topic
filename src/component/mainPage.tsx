@@ -24,23 +24,12 @@ function mainPage() {
   const [topic, setTopic] = useState<Array<topicType>>([
     {
       id: 1,
-      header: 'test',
-      list: [
-        { id: 1, text: 'test_1_longer_longer_longer', checked: false },
-        {
-          id: 2,
-          text: 'test_2_longer_longer_longer_longer_longer',
-          checked: false,
-        },
-        { id: 3, text: 'test_3', checked: false },
-        { id: 4, text: 'test_4', checked: false },
-        { id: 5, text: 'test_5', checked: false },
-        { id: 6, text: 'test_6', checked: false },
-      ],
+      header: 'test_1',
+      list: [{ id: 1, text: 'test_1_1', checked: false }],
     },
   ]);
   const [header, setHeader] = useState<[string, number]>(['', -1]); // 첫번째 인자는 바뀐 값, 두번째 인자는 topic Index
-  const [listFocus, setListFocus] = useState(-1);
+  const [listFocus, setListFocus] = useState(-1); // 몇번째 topic에 포커싱 중인지 나타내는 숫자형 변수
 
   // 첫번째 인자는 바뀐값, 두번째 인자는 topic Index, 세번째 인자는 topic item Index
   const [subItem, setSubItem] = useState<[string, number, number]>([
@@ -112,6 +101,42 @@ function mainPage() {
       );
 
       setTopic(sampleTopic);
+    } else if (
+      topic[topicIndex].list.findIndex((obj) => obj.text === text) !== -1
+    ) {
+      toastr.error('같은 이름의 내용이 있습니다.');
+    } else if (text === '') {
+      toastr.error('내용을 입력해주세요.');
+    }
+
+    setSubItem(['', -1, -1]);
+  };
+
+  const handleEditItem = (): void => {
+    const [text, topicIndex, listIndex] = subItem;
+
+    if (
+      text !== '' &&
+      topic[topicIndex].list.findIndex((obj) => obj.text === text) === -1
+    ) {
+      setTopic(
+        topic.map((tItem, tIndex) =>
+          tIndex === topicIndex
+            ? {
+                ...tItem,
+                list: tItem.list.map((item, index) =>
+                  index === listIndex ? { ...item, text } : item,
+                ),
+              }
+            : tItem,
+        ),
+      );
+    } else if (
+      topic[topicIndex].list.findIndex((obj) => obj.text === text) !== -1
+    ) {
+      toastr.error('같은 이름의 내용이 있습니다.');
+    } else if (text === '') {
+      toastr.error('내용을 입력해주세요.');
     }
 
     setSubItem(['', -1, -1]);
@@ -169,6 +194,7 @@ function mainPage() {
                 <div className="topic_header pad_true">
                   <div className="topic_header_text">{topicList.header}</div>
                   <AiOutlineEdit
+                    size="20"
                     className="topic_header_edit"
                     onClick={() => setHeader(['', topicIndex])}
                   />
@@ -204,27 +230,45 @@ function mainPage() {
                         onClick={() => handleDeleteItem(topicIndex, listIndex)}
                       />
                     </div>
-                    <div className="topic_item_main">
-                      <div className="topic_item_text">{list.text}</div>
-                      <AiOutlineEdit className="topic_item_edit" />
-                    </div>
+                    {subItem[1] === topicIndex && subItem[2] === listIndex ? (
+                      <div className="topic_item_main">
+                        <input
+                          type="text"
+                          className="topic_item_input"
+                          placeholder={list.text}
+                          onChange={(e) =>
+                            setSubItem([e.target.value, topicIndex, listIndex])
+                          }
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') handleEditItem();
+                          }}
+                          value={subItem[0]}
+                          ref={(e) => e?.focus?.()}
+                        />
+                        <AiOutlineCheck
+                          className="topic_item_edit"
+                          onClick={() => handleEditItem()}
+                        />
+                      </div>
+                    ) : (
+                      <div className="topic_item_main">
+                        <div className="topic_item_text">{list.text}</div>
+                        <AiOutlineEdit
+                          className="topic_item_edit"
+                          onClick={() =>
+                            setSubItem(['', topicIndex, listIndex])
+                          }
+                        />
+                      </div>
+                    )}
                   </li>
                 ))}
-
                 <div
                   className="topic_item add_item"
                   role="button"
                   tabIndex={-1}
                 >
-                  {subItem[2] !== -2 ? (
-                    <div className="topic_item_main">
-                      <div className="topic_item_text">Add The Topic</div>
-                      <AiOutlinePlus
-                        className="topic_item_edit"
-                        onClick={() => setSubItem(['', topicIndex, -2])}
-                      />
-                    </div>
-                  ) : (
+                  {subItem[1] === topicIndex && subItem[2] === -2 ? (
                     <div className="topic_item_main">
                       <input
                         type="text"
@@ -242,6 +286,14 @@ function mainPage() {
                       <AiOutlineCheck
                         className="topic_item_edit"
                         onClick={() => handleAddItem()}
+                      />
+                    </div>
+                  ) : (
+                    <div className="topic_item_main">
+                      <div className="topic_item_text">Add The Topic</div>
+                      <AiOutlinePlus
+                        className="topic_item_edit"
+                        onClick={() => setSubItem(['', topicIndex, -2])}
                       />
                     </div>
                   )}

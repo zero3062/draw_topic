@@ -140,7 +140,7 @@ input {
             justify-content: space-between;
 
             .topic_item_text {
-              max-width: 230px;
+              max-width: 94%;
               word-wrap: break-word;
               margin-right: 20px;
             }
@@ -150,6 +150,7 @@ input {
               border: none;
               color: white;
               background: transparent;
+              min-width: 90%;
 
               &::placeholder {
                 color: rgb(185, 185, 185);
@@ -157,7 +158,9 @@ input {
             }
 
             .topic_item_edit {
-              margin-top: 4px;
+              position: absolute;
+              top: 18px;
+              right: 15px;
             }
           }
         }
@@ -168,6 +171,10 @@ input {
 
         .add_item {
           background: rgba(255, 255, 255, 0.445);
+
+          .topic_item_main > .topic_item_text {
+            white-space: nowrap;
+          }
         }
       }
     }
