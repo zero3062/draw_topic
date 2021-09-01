@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import '../style/topicHeader.scss';
 
 export default function TopicHeader() {
   const history = useHistory();
