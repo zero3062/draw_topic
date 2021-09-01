@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import '../style/topicList.scss';
 
 interface listType {
@@ -13,12 +12,9 @@ interface topicType {
   list: Array<listType>;
 }
 
-export default function topicRandom() {
-  const [topic, setTopic] = useState<Array<topicType>>([]);
-
+export default function TopicRandom({ topic }: { topic: Array<topicType> }) {
   return (
     <div className="article">
-      <div className="topic_main">Topic Random</div>
       <div className="topic_article">
         <div className="topic">
           {topic.map((topicList, topicIndex) => (
@@ -27,7 +23,7 @@ export default function topicRandom() {
                 <div className="topic_header_text">{topicList.header}</div>
               </div>
               <li key={topicList.header} className="topic_li">
-                {topicList.list.map((list, listIndex) => (
+                {topicList.list.map((list) => (
                   <li
                     key={list.text}
                     className={list.checked ? 'topic_item on' : 'topic_item'}
