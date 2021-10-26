@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import * as toastr from 'toastr';
 
-import List from './component/TopicList';
-import Random from './component/TopicRandom';
-import Header from './component/TopicHeader';
+import List from './component/topicList';
+import Random from './component/topicRandom';
+import Header from './component/topicHeader';
 
 interface listType {
   id: number;

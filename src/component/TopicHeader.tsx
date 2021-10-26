@@ -15,7 +15,7 @@ export default function TopicHeader() {
   return (
     <div className="article">
       <div className="header_article">
-        <div className="header_main">Topic List</div>
+        <div className="header_main">Draw</div>
         <div className="header_li">
           <li
             onKeyPress={() => handlePushPage(1)}
